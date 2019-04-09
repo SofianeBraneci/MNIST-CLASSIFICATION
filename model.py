@@ -79,10 +79,25 @@ model = Sequential([
 model.summary()
 
 model.compile('adam','categorical_crossentropy',['accuracy'])
+history = model.fit(train, train_labels, validation_data = (test, test_labels), validation_split=0.25)
+# Plot training & validation accuracy values
+plt.plot(history.history['acc'])
+plt.plot(history.history['val_acc'])
+plt.title('Model accuracy')
+plt.ylabel('Accuracy')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Test'], loc='upper left')
+plt.show()
 
-history = model.fit(train, train_labels, epochs=10, batch_size=32 ) # you could use history to do more visualization.
+# Plot training & validation loss values
+plt.plot(history.history['loss'])
+plt.plot(history.history['val_loss'])
+plt.title('Model loss')
+plt.ylabel('Loss')
+plt.xlabel('Epoch')
+plt.legend(['Train', 'Test'], loc='upper left')
+plt.show()
 
 """ Evaluation """
-
 prediction = model.predict_classes(test)
 print(classification_report(test_labels, to_categorical(prediction, 10)))
